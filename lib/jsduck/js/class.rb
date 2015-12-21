@@ -68,7 +68,7 @@ module JsDuck
           if ast.ext_define?
             detect_ext_define(cls, ast)
           elsif ast.ext_extend?
-            detect_ext_something(:extends, cls, ast)
+            detect_ext_extend(cls, ast)
           elsif ast.ext_override?
             detect_ext_something(:override, cls, ast)
           elsif ast.object_expression?
@@ -86,6 +86,26 @@ module JsDuck
       # Class name begins with upcase char
       def class_name?(name)
         return name.split(/\./).last =~ /\A[A-Z]/
+      end
+
+      # Detection of Ext.extend()
+      def detect_ext_extend(cls, ast)
+        args = ast["arguments"]
+        # Detect Ext.extend(Parent, {})
+        if args.length <= 2
+          cls[:extends] = args[0].to_s
+          if args[1].object_expression?
+            detect_class_members_from_object(cls, args[1])
+          end
+        end
+
+        # Detect Li.extend('Type', Parent, {})
+        if args.length == 3
+          cls[:extends] = args[1].to_s
+          if args[2].object_expression?
+            detect_class_members_from_object(cls, args[2])
+          end
+        end
       end
 
       # Detection of Ext.extend() or Ext.override().
