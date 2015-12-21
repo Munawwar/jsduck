@@ -42,7 +42,7 @@ module JsDuck
         @patterns = {
           "Ext.define" => build_patterns(namespaces, [".define", ".ClassManager.create"]),
           "Ext.extend" => build_patterns(namespaces, [".extend"]),
-          "Ext.override" => build_patterns(namespaces, [".override"]),
+          "Ext.override" => build_patterns(namespaces, [".override", ".augment"]),
           "Ext.emptyFn" => build_patterns(namespaces, [".emptyFn"]),
         }
       end
