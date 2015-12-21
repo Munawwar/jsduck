@@ -39,7 +39,7 @@ end
 # Compress JS/CSS file in-place
 # Using a hackish way to access yui-compressor
 def yui_compress(fname)
-  system "java -jar $(dirname $(which sencha))/bin/yuicompressor.jar -o #{fname} #{fname}"
+  system "java -jar $(pwd -P)/bin/yuicompressor.jar -o #{fname} #{fname}"
 end
 
 # Reads in all CSS files referenced between BEGIN CSS and END CSS markers.
@@ -194,11 +194,11 @@ end
 
 # Download ExtJS into template/extjs
 task :get_extjs do
-  system "curl -o template/extjs.zip http://cdn.sencha.com/ext-4.1.1a-gpl.zip"
+  # system "curl -o template/extjs.zip http://download.huihoo.com/extjs/ext-4.1.1a-gpl.zip"
   system "unzip template/extjs.zip -d template/"
   system "rm -rf template/extjs"
   system "mv template/ext-4.1.1a template/extjs"
-  system "rm template/extjs.zip"
+  # system "rm template/extjs.zip"
 end
 
 # Auto-generate sdk-vars.rb config file
